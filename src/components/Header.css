@@ -1,0 +1,12 @@
+.NavLink {
+    display: flex;
+}
+.NavLink a {
+    text-decoration: none;
+    color: snow;
+    padding: 0 10px;
+}
+.NavLink a[class='active']{
+    /*color: #9b9ba2;*/
+    font-weight: bold;
+}

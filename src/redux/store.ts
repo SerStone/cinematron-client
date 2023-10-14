@@ -1,9 +1,13 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
-import {carReducer} from "./slice";
+import {genreReducer, movieReducer} from "./slice";
+// @ts-ignore
+import {userReducer} from './slice/user.slice'
 
 const rootReducer = combineReducers({
-    carReducer
+    movieReducer,
+    genreReducer,
+    user: userReducer,
 });
 
 const setupStore = () => configureStore({
@@ -18,9 +22,9 @@ export type {
     RootState,
     AppStore,
     AppDispatch
-}
+};
 
 export {
     setupStore
-}
+};
 

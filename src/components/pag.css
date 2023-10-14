@@ -1,0 +1,11 @@
+button {
+    padding: 3px 10px;
+}
+
+button[disabled] {
+    color: silver;
+}
+
+nav {
+    background-color: #74757e;
+}
