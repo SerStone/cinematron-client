@@ -1,7 +1,7 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 
-import {Box, Button, Grid, Typography} from "@mui/material";
+import {Box, Button, Divider, Grid, Typography} from "@mui/material";
 import moment from "moment/moment";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
@@ -10,8 +10,9 @@ import { movieActions} from "../redux";
 import {StarsRating} from "./StarsRating";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import './info.css'
-
-
+import {CommentsSection} from "./CommentsSection";
+import {CommentsService} from "../services/comments.service";
+import {IComment} from "../interfaces/comment.interface";
 
 const MovieInfo: FC = () => {
     const {genres} = useAppSelector(state => state.genreReducer);
@@ -21,8 +22,43 @@ const MovieInfo: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const [userData] = useState(JSON.parse(localStorage.getItem('userData')));
+
+    const [comments, setComments] = useState<IComment[]>([]);
+
     const date = moment(state.release_date).format("DD MMM, YYYY");
     const findGenres = genres.filter(item => state.genre_ids.includes(item.id));
+
+    const getMovieComments = async () => {
+        try {
+            const data = await CommentsService.getByMovieId(state.id);
+            setComments(data);
+        } catch (e) {
+            console.error("Error", e);
+        }
+    }
+
+    const publishTheComment = async (text: string) => {
+        try {
+            await CommentsService.createOne(userData._id, userData.name, state.id, text);
+            await getMovieComments();
+        } catch (e) {
+            console.error("Error", e);
+        }
+    }
+
+    const deleteTheComment = async (id: string) => {
+        try {
+            await CommentsService.delete(id, userData._id);
+            await getMovieComments();
+        } catch (e) {
+            console.error("Error", e);
+        }
+    }
+
+    useEffect(() => {
+        getMovieComments();
+    }, [])
 
     const findMoviesByGenre = (genre_ids:number) => {
         dispatch(movieActions.setSelectGenre(genre_ids))
@@ -104,6 +140,10 @@ const MovieInfo: FC = () => {
                             }
                         </Grid>
                     </Grid>
+                    <Divider sx={{marginTop: '4rem'}} />
+                    <Box>
+                        <CommentsSection comments={comments} onPublishCommentHandler={publishTheComment} onDeleteCommentHandler={deleteTheComment} userId={userData._id} />
+                    </Box>
                 </Box>
             }
         </Box>

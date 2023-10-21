@@ -17,6 +17,11 @@ const urls = {
     genres: {
         genres:`/genre/movie/list?${api_key}`
     },
+    comments: {
+        commentsByMovieId: (id: string) => `/comments/${id}`,
+        add: '/comments',
+        delete: (id: string) => `/comments/${id}`,
+    },
     search: {
         search:`/search/movie?${api_key}`
     },
