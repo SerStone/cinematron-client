@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.textarea {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem;
+    border-radius: 16px;
+    background: #dadada;
+    min-width: 70%;
+    max-width: 70%;
+    min-height: 4rem;
+}
+.textarea::placeholder {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.publishButton {
+    margin: .8rem 0;
+    padding: .5rem 2rem;
+    width: 8rem;
+}
