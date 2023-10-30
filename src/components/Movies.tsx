@@ -1,8 +1,8 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 
 import Box from "@mui/material/Box";
 
-import {movieActions} from '../redux';
+import {favoritesActions, movieActions} from '../redux';
 
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {Grid} from "@mui/material";
@@ -21,6 +21,13 @@ const Movies: FC = () => {
         selectYear,
         searchText
     } = useAppSelector((state) => state.movieReducer);
+    const { favoriteMovies } = useAppSelector((state) => state.favoritesReducer);
+
+    const [userData] = useState(JSON.parse(localStorage.getItem('userData')));
+
+    useEffect(() => {
+        dispatch(favoritesActions.fetchFavorites(userData._id))
+    }, [])
 
     useEffect(() => {
         switch (filterMovies) {
@@ -45,7 +52,7 @@ const Movies: FC = () => {
             <Grid container spacing={4} sx={{display: {xs: 'flex', flexDirection: 'row', md: 'flex'}}}>
                 {movies.map((movie) => (
                     <Grid item xs={12} md={3} key={movie.id}>
-                        <MoviesListCard movie={movie}/>
+                        <MoviesListCard isLiked={!!favoriteMovies.find(m => m.movieId == movie.id)} movie={movie}/>
                     </Grid>
                 ))}
             </Grid>

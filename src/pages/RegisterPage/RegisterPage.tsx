@@ -13,6 +13,7 @@ const RegisterPage: FC = () => {
         gender: '',
         email: '',
         password: '',
+        favoriteMovies: [],
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -29,7 +29,7 @@ interface IProps {
 }
 
 const Header: FC<IProps> = ({switcher}) => {
-    const settings = ['Profile','Register','Login', 'Account', 'Dashboard', 'Logout'];
+    const settings = ['Favorites'];
     const authSettingsLogin =  'Login';
     const authSettingsRegister =  'Register';
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -83,6 +83,7 @@ const Header: FC<IProps> = ({switcher}) => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+        window.location.href = '/favorites';
     };
 
     // Додайте обробник для логауту, який скидає значення userName до "Guest"
@@ -112,7 +113,7 @@ const Header: FC<IProps> = ({switcher}) => {
                                     variant="h5"
                                     noWrap
                                     component="a"
-                                    href="/"
+                                    href="/movie"
                                     sx={{
                                         mr: 2,
                                         display: {xs: 'none', md: 'flex'},

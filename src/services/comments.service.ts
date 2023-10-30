@@ -1,6 +1,5 @@
 import {axiosServiceUser} from "./axios.service";
 import {urls} from "../constants";
-import {IRes} from "../types/axiosRes.type";
 import {IComment} from "../interfaces/comment.interface";
 
 export class CommentsService {
