@@ -21,6 +21,15 @@ export interface IMovie {
     vote_average: number;
     vote_count: number;
 }
+
+export interface IFavoriteMovie {
+    movieId: number;
+    release_date: Date;
+    title: string;
+    poster_path?: string | null;
+    vote_average?: number;
+}
+
 export interface ISearch {
     searchText: string;
 }

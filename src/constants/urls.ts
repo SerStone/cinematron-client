@@ -22,6 +22,11 @@ const urls = {
         add: '/comments',
         delete: (id: string) => `/comments/${id}`,
     },
+    favorites: {
+        getByUserId: (id: string) => `/users/${id}/favorites`,
+        add: (userId: string) => `/users/${userId}/favorites`,
+        delete: (userId: string, movieId: number) => `/users/${userId}/${movieId}/favorites`,
+    },
     search: {
         search:`/search/movie?${api_key}`
     },

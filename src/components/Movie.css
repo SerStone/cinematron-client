@@ -58,6 +58,9 @@ border-radius: 10px;
 .movie__info-title{
     font-size: 18px;
 }
+.movie__like-btn {
+    width: 1rem;
+}
 button {
     background: #1b2631;
     text-decoration: none;

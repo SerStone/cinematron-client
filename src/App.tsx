@@ -10,6 +10,7 @@ import {MainLayout} from "./layouts";
 import {HomePage} from "./pages";
 
 import './App.css';
+import {FavoritesPage} from "./pages/FavoritesPage/FavoritesPage";
 
 
 const App: FC = () => {
@@ -24,6 +25,7 @@ const App: FC = () => {
                     <Route path={'/profile'} element={<ProfilePage/>}/>
                     <Route path={'movie'} element={<HomePage/>}/>
                     <Route path={'movie/:id'} element={<MovieInfoPage/>}/>
+                    <Route path={'/favorites'} element={<FavoritesPage/>} />
                 </Route>
             </Routes>
         </Box>

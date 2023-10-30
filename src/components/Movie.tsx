@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 
 import moment from "moment";
@@ -9,18 +9,43 @@ import {IMovie} from "../interfaces";
 
 import {Box, Card, CardContent, CardMedia, Typography, useTheme} from '@mui/material';
 
+import heart from '../images/heart.svg';
+import heartOutline from '../images/heart-outline.svg';
+import {FavoritesService} from "../services/favorites.service";
+import {useAppDispatch} from "../hooks";
+import {favoritesActions} from "../redux";
+
 
 interface IProps {
-    movie: IMovie
+    movie: Partial<IMovie>;
+    isLiked: boolean;
 }
 
-const MoviesListCard: FC<IProps> = ({movie}) => {
+const MoviesListCard: FC<IProps> = ({movie, isLiked}) => {
     const {title, poster_path, vote_average, release_date, id} = movie;
 
     const date = moment(release_date).format("DD MMM YYYY");
     const baseImageURL = 'https://image.tmdb.org/t/p/w500/';
     const imgUrl = poster_path ? `${baseImageURL}${poster_path}` : `${notImg}`;
     const theme = useTheme();
+
+    const [userData] = useState(JSON.parse(localStorage.getItem('userData')));
+
+    const dispatch = useAppDispatch();
+
+    const onLikeClick = async () => {
+      if (isLiked) {
+          await dispatch(favoritesActions.removeFavorite({userId: userData._id, movieId: id}));
+      } else {
+          await dispatch(favoritesActions.addFavorite({userId: userData._id, movie: {
+              movieId: id,
+                  poster_path,
+                  vote_average,
+                  release_date: release_date.toString(),
+                  title,
+              }}));
+      }
+    }
 
     return (
         <NavLink to={id.toString()} state={{...movie}}>
@@ -48,14 +73,28 @@ const MoviesListCard: FC<IProps> = ({movie}) => {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        < Typography variant="body1" color="text.primary" sx={{textAlign:'center'}}>
+                        < Typography variant="body1" color="text.primary" sx={{
+                            textAlign:'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                        }}>
                             {title}
+                            <img
+                                onClick={async (event) => {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    await onLikeClick();
+                                }}
+                                alt="heart"
+                                src={isLiked ? heart : heartOutline}
+                                className="movie__like-btn"/>
                         </Typography>
                         <Typography color="text.primary" sx={{mb:'7px'}}>
                             {date}
                         </Typography>
 
-                        <StarsRating rating={vote_average} />
+                        <StarsRating rating={Number(vote_average)} />
                     </Box>
                 </CardContent>
             </Card>

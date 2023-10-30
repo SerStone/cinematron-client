@@ -1,12 +1,13 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
-import {genreReducer, movieReducer} from "./slice";
+import {genreReducer, movieReducer, favoritesReducer} from "./slice";
 // @ts-ignore
 import {userReducer} from './slice/user.slice'
 
 const rootReducer = combineReducers({
     movieReducer,
     genreReducer,
+    favoritesReducer,
     user: userReducer,
 });
 

@@ -10,4 +10,5 @@ export interface IUser {
     avatar?: string;
     gender?: string;
     password: string;
+    favoriteMovies: string[];
 }
