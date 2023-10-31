@@ -29,7 +29,7 @@ interface IProps {
 }
 
 const Header: FC<IProps> = ({switcher}) => {
-    const settings = ['Favorites'];
+    const settings = [{name: 'Favorites', url: '/favorites'}];
     const authSettingsLogin =  'Login';
     const authSettingsRegister =  'Register';
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -81,9 +81,9 @@ const Header: FC<IProps> = ({switcher}) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (url: string) => {
         setAnchorElUser(null);
-        window.location.href = '/favorites';
+        navigate(url);
     };
 
     // Додайте обробник для логауту, який скидає значення userName до "Guest"
@@ -156,8 +156,8 @@ const Header: FC<IProps> = ({switcher}) => {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center">{setting}{authSettingsLogin}{authSettingsRegister}</Typography>
+                                        <MenuItem key={setting.name} onClick={() => handleCloseUserMenu(setting.url)}>
+                                            <Typography textAlign="center">{setting.name}{authSettingsLogin}{authSettingsRegister}</Typography>
                                         </MenuItem>
                                     ))}
                                 </Menu>
@@ -197,8 +197,8 @@ const Header: FC<IProps> = ({switcher}) => {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center">{setting}</Typography>
+                                        <MenuItem key={setting.name} onClick={() => handleCloseUserMenu(setting.url)}>
+                                            <Typography textAlign="center">{setting.name}</Typography>
                                         </MenuItem>
                                     ))}
                                     <MenuItem onClick={() => navigate('/profile')}>
